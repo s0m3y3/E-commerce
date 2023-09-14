@@ -4,8 +4,7 @@ const { Category, Product } = require('../../models');
 // The `/api/categories` endpoint
 
 router.get('/', async (req, res) => {
-  // find all categories
-  // be sure to include its associated Products
+  // find all categories & it include its associated Products
   try {
     const categoryData = await Category.findAll({
       include: [{ model: Product }]
@@ -18,8 +17,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  // find one category by its `id` value
-  // be sure to include its associated Products
+  // find one category by its `id` value & include its associated Products
 
   try {
     const categoryData = await Category.findByPk(req.params.id, {
@@ -27,7 +25,7 @@ router.get('/:id', async (req, res) => {
     });
 
     if (!categoryData) {
-      res.status(404).json({ message: 'No driver found with that id!' });
+      res.status(404).json({ message: 'No category found with that id!' });
       return;
     }
 
@@ -51,10 +49,9 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   // update a category by its `id` value
-
   try {
     const { category_name } = req.body;
-    const category = await Category.findByPk(req.params.id);
+    const category = await Category.update(req.params.id);
     if (!category) {
       res.status(404).json({ message: 'No category found with that id!' });
       return;
@@ -71,6 +68,17 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
+  //correct me. 
+  Book.destroy({
+    where: {
+      isbn: req.params.isbn,
+    },
+  })
+    .then((deletedBook) => {
+      res.json(deletedBook);
+    })
+    .catch((err) => res.json(err));
+
 });
 
 module.exports = router;
