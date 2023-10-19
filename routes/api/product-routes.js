@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
-
 // The `/api/products` endpoint
 
 router.get('/', async (req, res) => {
@@ -68,36 +67,37 @@ router.put('/:id', async (req, res) => {
   })
     .then((product) => {
       if (req.body.tagIds && req.body.tagIds.length) {
-        
         ProductTag.findAll({
-          where: { product_id: req.params.id }
-        }).then((productTags) => {
-          // create filtered list of new tag_ids
-          const productTagIds = productTags.map(({ tag_id }) => tag_id);
-          const newProductTags = req.body.tagIds
-          .filter((tag_id) => !productTagIds.includes(tag_id))
-          .map((tag_id) => {
-            return {
-              product_id: req.params.id,
-              tag_id,
-            };
-          });
+          where: { product_id: req.params.id },
+        })
+          .then((productTags) => {
+            const productTagIds = productTags.map(({ tag_id }) => tag_id);
+            const newProductTags = req.body.tagIds
+              .filter((tag_id) => !productTagIds.includes(tag_id))
+              .map((tag_id) => {
+                return {
+                  product_id: req.params.id,
+                  tag_id,
+                };
+              });
 
-            // figure out which ones to remove
-          const productTagsToRemove = productTags
-          .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
-          .map(({ id }) => id);
-                  // run both actions
-          return Promise.all([
-            ProductTag.destroy({ where: { id: productTagsToRemove } }),
-            ProductTag.bulkCreate(newProductTags),
-          ]);
-        });
+            const productTagsToRemove = productTags
+              .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
+              .map(({ id }) => id);
+
+            // Run both actions
+            return Promise.all([
+              ProductTag.destroy({ where: { id: productTagsToRemove } }),
+              ProductTag.bulkCreate(newProductTags),
+            ]);
+          });
       }
 
-      return res.json(product);
+      return res.json(product); // Return product data when there are no errors
     })
-    .catch((err) => {res.status(400).json(err);});
+    .catch((err) => {
+      res.status(400).json(err);
+    });
 });
 
 router.delete('/:id', (req, res) => {
