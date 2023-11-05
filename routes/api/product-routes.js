@@ -88,16 +88,17 @@ router.put('/:id', async (req, res) => {
             ]);
           });
       }
-
       return res.json(product); // Return product data when there are no errors
     })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
+    .catch((err) => {res.status(400).json(err);});
 });
 
-router.delete('/:id', (req, res) => {
-  // delete one product by its `id` value
+router.delete('/:id', async (req, res) => {
+  try {
+    const data = await Product.destroy({ where: { id: req.params.id } });
+    res.json(`${req.method} request was received to delete a product`);
+  } 
+  catch (error) {res.status(500).json(error);}
 });
 
 module.exports = router;
