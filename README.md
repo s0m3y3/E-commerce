@@ -1,5 +1,5 @@
 # E-Commerce-Back-End
-
+Have you ever dreamed about building your own website, but do not know where to start? This, is a quick back-end E-commerce app, where you can keep track of your products, which can be broken down to categories and tags. Lets check it out! 
 
 ## Table of Contents
 
@@ -15,13 +15,25 @@
 This code builds the back-end for an E-commerce website with sample seed data. You can jump-start your E-commerce store (back-end) using this base code. The database uses four tables: 
 
 Categories  
-  id, category_name
-Product  
-  id, product_name, price, stock, category_id
+*  id 
+* category_name  
+
+Product
+*  id
+* product_name
+* price
+* stock
+* category_id  
+
 ProductTag  
-  id, product_id, tag_id  
+*  id
+* product_id
+* tag_id   
+
 Tags
-*  id, tag_name
+*  id
+* tag_name
+
 
 The tables has the following relationship: 
 * Product belongsTo Category
@@ -29,7 +41,7 @@ The tables has the following relationship:
 * Product belongsToMany Tag
 * Tag belongsToMany Product
 
-You can access the database with the following API routes. The "..." below is the location of the server. If you are running on a local server, the server may be: http://localhost:3001/
+You can access the database with the following API routes. The "..." below is the location of the server. If you are running on a local server, the server may be: http://localhost:3004/
 
 Router GET & POST  
 .../api/products  
@@ -48,13 +60,7 @@ Router GET, PUT & Delete:
 
 ## Screenshots/videos:
 
-> Demo videos: 
-- Part One [_here_](https://drive.google.com/). 
-- Part Two [_here_](https://drive.google.com/). 
-- Part Three [_here_](https://drive.google.com/). 
-
-
-![Example screenshot](https://github.com/)
+> Demo videos: [_here_](https://drive.google.com/file/d/1Ms8PuQ7RAM3ClWvDZZGRZ0krfI8YraNN/view?usp=sharing)
 
 
 ## Installation
@@ -97,4 +103,4 @@ In terminal, we need to generate the seeds. You can update this base code, if yo
 ## Contact
 
 Created by s0m3y3 [(github)](https://github.com/s0m3y3/E-commerce).  
-Last updated: 10/19/2023
+Last updated: 11/05/2023
